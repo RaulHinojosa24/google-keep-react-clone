@@ -1,0 +1,20 @@
+:root {
+  font-family: "Google Sans", Roboto, Arial, sans-serif;
+
+  color: black;
+  background-color: #fff;
+
+  --note-width: 240px;
+  --note-margins: 16px;
+  --note-desc-lines: 8;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+p {
+  margin: 0;
+}
