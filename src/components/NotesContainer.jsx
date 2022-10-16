@@ -1,8 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
+import { NotesContext } from "../context/notes-context";
 import Note from "./Note";
 import classes from "./NotesContainer.module.css";
 
 const NotesContainer = (props) => {
+  const notesCtx = useContext(NotesContext);
+  const { notes: notesData } = notesCtx;
   const [notes, setNotes] = useState([]);
   const notesRefs = useRef([]);
 
@@ -13,23 +16,10 @@ const NotesContainer = (props) => {
     noteMargins,
   } = props.containerData;
 
-  useEffect(() => {
-    // const mappedNotes = props.notes.map((note, index) => {
-    //   let x = "0px";
-    //   let y = "0px";
-    //   const actualColumn = index % columns;
-
-    //   return (
-    //     <Note
-    //       {...note}
-    //       key={note.id}
-    //       ref={(el) => (notesRefs.current[index] = el)}
-    //     ></Note>
-    //   );
-    // });
+  const generateNotesWithPositions = () => {
     let currentRow = 0;
 
-    const mappedNotes = props.notes.map((note, index) => {
+    const mappedNotes = notesData.map((note, index) => {
       const actualColumn = index % columns;
       if (index !== 0 && actualColumn === 0) currentRow++;
 
@@ -54,13 +44,17 @@ const NotesContainer = (props) => {
       );
     });
 
-    setNotes(mappedNotes);
-  }, [props.notes, columns, noteWidth, noteMargins]);
+    return mappedNotes;
+  };
+
+  useEffect(() => {
+    setNotes(generateNotesWithPositions());
+  }, [notesData, columns, noteWidth, noteMargins]);
 
   return (
     <div
       className={classes["notes-container"]}
-      style={{ width: containerWidth }}
+      style={{ width: containerWidth /*height: containerHeight*/ }}
     >
       {notes}
     </div>

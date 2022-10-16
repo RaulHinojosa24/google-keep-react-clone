@@ -1,94 +1,9 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./App.css";
 import NotesContainer from "./components/NotesContainer";
+import { NotesContextProvider, NotesContext } from "./context/notes-context";
 import { useWindowSize } from "./hooks/use-window-size";
 
-const DUMMY_NOTES = [
-  {
-    id: 0,
-    title: "Title",
-    description:
-      "Ipsum commodo velit reprehenderit minim minim irure enim laboris tempor ex veniam fugiat pariatur elit.",
-  },
-  {
-    id: 1,
-    title: "Testing bla bla",
-    description:
-      "Labore mollit ut laboris laboris aliquip nostrud non ex velit minim do labore. Et adipisicing anim aliqua tempor fugiat. Sunt ullamco pariatur laboris id cupidatat veniam pariatur ut sint sint. Cillum sunt fugiat magna id consectetur sunt duis commodo sint laborum cillum culpa.",
-  },
-  {
-    id: 2,
-    title: "Title",
-    description:
-      "Ipsum commodo velit reprehenderit minim minim irure enim laboris tempor ex veniam fugiat pariatur elit.",
-  },
-  {
-    id: 3,
-    title: "Testing bla bla",
-    description:
-      "Labore mollit ut laboris laboris aliquip nostrud non ex velit minim do labore. Et adipisicing anim aliqua tempor fugiat. Sunt ullamco pariatur laboris id cupidatat veniam pariatur ut sint sint. Cillum sunt fugiat magna id consectetur sunt duis commodo sint laborum cillum culpa.",
-  },
-  {
-    id: 4,
-    title: "Title",
-    description:
-      "Ipsum commodo velit reprehenderit minim minim irure enim laboris tempor ex veniam fugiat pariatur elit.",
-  },
-  {
-    id: 5,
-    title: "Testing bla bla",
-    description:
-      "Labore mollit ut laboris laboris aliquip nostrud non ex velit minim do labore. Et adipisicing anim aliqua tempor fugiat. Sunt ullamco pariatur laboris id cupidatat veniam pariatur ut sint sint. Cillum sunt fugiat magna id consectetur sunt duis commodo sint laborum cillum culpa.",
-  },
-  {
-    id: 6,
-    title: "Title",
-    description:
-      "Ipsum commodo velit reprehenderit minim minim irure enim laboris tempor ex veniam fugiat pariatur elit.",
-  },
-  {
-    id: 7,
-    title: "Testing bla bla",
-    description:
-      "Labore mollit ut laboris laboris aliquip nostrud non ex velit minim do labore. Et adipisicing anim aliqua tempor fugiat. Sunt ullamco pariatur laboris id cupidatat veniam pariatur ut sint sint. Cillum sunt fugiat magna id consectetur sunt duis commodo sint laborum cillum culpa.",
-  },
-  {
-    id: 8,
-    title: "Title",
-    description:
-      "Ipsum commodo velit reprehenderit minim minim irure enim laboris tempor ex veniam fugiat pariatur elit.",
-  },
-  {
-    id: 9,
-    title: "Testing bla bla",
-    description:
-      "Labore mollit ut laboris laboris aliquip nostrud non ex velit minim do labore. Et adipisicing anim aliqua tempor fugiat. Sunt ullamco pariatur laboris id cupidatat veniam pariatur ut sint sint. Cillum sunt fugiat magna id consectetur sunt duis commodo sint laborum cillum culpa.",
-  },
-  {
-    id: 10,
-    title: "Title",
-    description:
-      "Ipsum commodo velit reprehenderit minim minim irure enim laboris tempor ex veniam fugiat pariatur elit.",
-  },
-  {
-    id: 11,
-    title: "Testing bla bla",
-    description:
-      "Labore mollit ut laboris laboris aliquip nostrud non ex velit minim do labore. Et adipisicing anim aliqua tempor fugiat. Sunt ullamco pariatur laboris id cupidatat veniam pariatur ut sint sint. Cillum sunt fugiat magna id consectetur sunt duis commodo sint laborum cillum culpa.",
-  },
-  {
-    id: 12,
-    title: "Title",
-    description:
-      "Ipsum commodo velit reprehenderit minim minim irure enim laboris tempor ex veniam fugiat pariatur elit.",
-  },
-  {
-    id: 13,
-    title: "Testing bla bla",
-    description:
-      "Labore mollit ut laboris laboris aliquip nostrud non ex velit minim do labore. Et adipisicing anim aliqua tempor fugiat. Sunt ullamco pariatur laboris id cupidatat veniam pariatur ut sint sint. Cillum sunt fugiat magna id consectetur sunt duis commodo sint laborum cillum culpa.",
-  },
-];
 const NOTE_WIDTH = 240;
 const NOTE_MARGINS = 16;
 
@@ -121,24 +36,12 @@ const CalculateContainerWidth = (fittingNotes, windowWidth) => {
 };
 
 function App() {
-  const [notes, setNotes] = useState(DUMMY_NOTES);
+  const notesCtx = useContext(NotesContext);
   const { width: windowWidth } = useWindowSize();
   const [notesContainerData, setNotesContainerData] = useState({
     width: 0,
     fittingNotes: 0,
   });
-
-  const newNoteHandler = (note) => {
-    setNotes((prevState) => {
-      return [
-        ...prevState,
-        {
-          id: prevState.length,
-          ...note,
-        },
-      ];
-    });
-  };
 
   useEffect(() => {
     const newFittingNotes = Math.floor(
@@ -161,17 +64,15 @@ function App() {
   }, [windowWidth]);
 
   return (
-    <>
+    <NotesContextProvider>
       <header></header>
       <main>
-        <NotesContainer
-          notes={notes}
-          onNewNote={newNoteHandler}
-          containerData={notesContainerData}
-        />
+        {!notesCtx.loadingData || (
+          <NotesContainer containerData={notesContainerData} />
+        )}
       </main>
       <footer></footer>
-    </>
+    </NotesContextProvider>
   );
 }
 
