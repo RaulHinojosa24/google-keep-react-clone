@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from "react";
+import React, { useReducer } from "react";
 
 const DUMMY_NOTES = [
   {
@@ -90,10 +90,17 @@ const DUMMY_NOTES = [
 const notesReducer = (prevState, action) => {
   switch (action.type) {
     case "LOAD_NOTES_DATA":
+      let localStorageData = localStorage.getItem("NOTES_DATA");
+      let notes = localStorageData ? JSON.parse(localStorageData) : DUMMY_NOTES;
+
       return {
         ...prevState,
-        notes: DUMMY_NOTES,
-        loadingData: false,
+        notes: notes,
+      };
+    case "SET_LOADING":
+      return {
+        ...prevState,
+        loadingData: action.payload,
       };
     default:
       return {
@@ -105,21 +112,24 @@ const notesReducer = (prevState, action) => {
 export const NotesContext = React.createContext({
   notes: [],
   loadingData: true,
+  loadNotesData: () => {},
 });
 
-export const NotesContextProvider = (props) => {
+export const NotesContextProvider = ({ children }) => {
   const [notesState, dispatchNotes] = useReducer(notesReducer, {
     notes: [],
     loadingData: true,
   });
 
-  useEffect(() => {
+  const loadNotesData = () => {
+    dispatchNotes({ type: "SET_LOADING", payload: true });
     dispatchNotes({ type: "LOAD_NOTES_DATA" });
-  }, []);
+    dispatchNotes({ type: "SET_LOADING", payload: false });
+  };
 
   return (
-    <NotesContext.Provider value={notesState}>
-      {props.children}
+    <NotesContext.Provider value={{ ...notesState, loadNotesData }}>
+      {children}
     </NotesContext.Provider>
   );
 };

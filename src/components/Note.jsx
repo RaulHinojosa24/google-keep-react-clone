@@ -1,7 +1,9 @@
 import classes from "./Note.module.css";
 import React from "react";
 
-const Note = React.forwardRef(({ id, title, description, style }, ref) => {
+const Note = React.forwardRef((props, ref) => {
+  const { id, title, description, style } = props;
+
   return (
     <div className={classes.note} ref={ref} style={style}>
       <p className={classes.title}>{title}</p>

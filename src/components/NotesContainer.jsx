@@ -23,7 +23,7 @@ const CalculateContainerWidth = (columns, containerWidth) => {
   }
 };
 
-const NotesContainer = ({ container: { current: container } }) => {
+const NotesContainer = ({ container }) => {
   const notesCtx = useContext(NotesContext);
   const { notes: notesData, loadingData } = notesCtx;
 
