@@ -1,5 +1,4 @@
 import React, { useEffect, useReducer } from "react";
-import { useWindowSize } from "../hooks/use-window-size";
 
 const DUMMY_NOTES = [
   {
@@ -106,16 +105,12 @@ const notesReducer = (prevState, action) => {
 export const NotesContext = React.createContext({
   notes: [],
   loadingData: true,
-  noteWidth: 240,
-  noteMargin: 16,
 });
 
 export const NotesContextProvider = (props) => {
   const [notesState, dispatchNotes] = useReducer(notesReducer, {
     notes: [],
     loadingData: true,
-    noteWidth: 240,
-    noteMargin: 16,
   });
 
   useEffect(() => {

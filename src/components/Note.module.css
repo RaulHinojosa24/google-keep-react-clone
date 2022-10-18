@@ -2,10 +2,9 @@
   padding: 1rem;
   border-radius: 0.5rem;
   border: 1px solid rgba(128, 128, 128, 0.5);
-  width: 240px;
-  margin: 16px;
+  background-color: white;
   position: absolute;
-  transition: transform 0.1s ease-in-out;
+  transition: transform 0.2s;
 }
 
 .title {
