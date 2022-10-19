@@ -1,5 +1,6 @@
 import { useContext, useEffect, useRef } from "react";
 import "./App.css";
+import AddNote from "./components/AddNote";
 import NotesContainer from "./components/NotesContainer";
 import { NotesContext } from "./context/notes-context";
 
@@ -15,7 +16,8 @@ function App() {
     <>
       <header></header>
       <main>
-        <div className="notes-display" ref={notesDisplay}>
+        <div ref={notesDisplay} style={{ minWidth: "344px" }}>
+          <AddNote />
           {!notesCtx.loadingData && (
             <NotesContainer container={notesDisplay.current} />
           )}

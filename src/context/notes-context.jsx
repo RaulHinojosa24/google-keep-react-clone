@@ -1,4 +1,5 @@
 import React, { useReducer } from "react";
+import { v4 as uuid } from "uuid";
 
 const DUMMY_NOTES = [
   {
@@ -96,6 +97,7 @@ const notesReducer = (prevState, action) => {
       return {
         ...prevState,
         notes: notes,
+        loadingData: false,
       };
     case "SET_LOADING":
       return {
@@ -124,7 +126,6 @@ export const NotesContextProvider = ({ children }) => {
   const loadNotesData = () => {
     dispatchNotes({ type: "SET_LOADING", payload: true });
     dispatchNotes({ type: "LOAD_NOTES_DATA" });
-    dispatchNotes({ type: "SET_LOADING", payload: false });
   };
 
   return (

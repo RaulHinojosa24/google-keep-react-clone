@@ -30,6 +30,7 @@ const NotesContainer = ({ container }) => {
   const { width: windowWidth } = useWindowSize();
 
   const [notesJSX, setNotesJSX] = useState([]);
+  const [containerHeight, setContainerHeight] = useState("");
   const notesRefs = useRef([]);
 
   const [notesContainerData, setNotesContainerData] = useState({
@@ -57,6 +58,7 @@ const NotesContainer = ({ container }) => {
 
     notesRefs.current.map((note, index) => {
       const actualColumn = index % notesContainerData.columns;
+
       if (index !== 0 && actualColumn === 0) currentRow++;
 
       let x = (NOTE_WIDTH + NOTE_MARGINS) * actualColumn;
@@ -74,7 +76,21 @@ const NotesContainer = ({ container }) => {
           ? `calc(100% - ${NOTE_MARGINS * 2}px)`
           : `${NOTE_WIDTH}px`;
       note.style.margin = `${NOTE_MARGINS}px`;
+      note.style.opacity = `1`;
     });
+  };
+
+  const generateContainerHeight = () => {
+    const columnHeights = new Array(notesContainerData.columns).fill(
+      NOTE_MARGINS
+    );
+
+    notesRefs.current.map((note, index) => {
+      const actualColumn = index % notesContainerData.columns;
+      columnHeights[actualColumn] += note.offsetHeight + NOTE_MARGINS;
+    });
+
+    setContainerHeight(Math.max(...columnHeights) + "px");
   };
 
   useEffect(() => {
@@ -100,6 +116,7 @@ const NotesContainer = ({ container }) => {
 
       if (notesContainerData.columns === 1) {
         generateNotesPositions();
+        generateContainerHeight();
       }
     }
   }, [windowWidth]);
@@ -107,18 +124,20 @@ const NotesContainer = ({ container }) => {
   useEffect(() => {
     if (notesContainerData.allSet) {
       generateNotesPositions();
+      generateContainerHeight();
     }
   }, [notesContainerData]);
 
   useEffect(() => {
     generateNotesJSX();
     generateNotesPositions();
+    generateContainerHeight();
   }, [notesData]);
 
   return (
     <div
       className={classes["notes-container"]}
-      style={{ width: notesContainerData.width /*height: containerHeight*/ }}
+      style={{ width: notesContainerData.width, height: containerHeight }}
     >
       {notesJSX}
     </div>
