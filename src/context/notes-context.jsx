@@ -5,116 +5,169 @@ const DUMMY_NOTES = [
   {
     id: 0,
     title: "Title",
-    description:
+    description: [
       "Ipsum commodo velit reprehenderit minim minim irure enim laboris tempor ex veniam fugiat pariatur elit.",
+    ],
   },
   {
     id: 1,
     title: "Testing bla bla",
-    description:
+    description: [
       "Labore mollit ut laboris laboris aliquip nostrud non ex velit minim do labore. Et adipisicing anim aliqua tempor fugiat. Sunt ullamco pariatur laboris id cupidatat veniam pariatur ut sint sint. Cillum sunt fugiat magna id consectetur sunt duis commodo sint laborum cillum culpa.",
+    ],
   },
   {
     id: 2,
     title: "Title",
-    description:
+    description: [
       "Ipsum commodo velit reprehenderit minim minim irure enim laboris tempor ex veniam fugiat pariatur elit.",
+    ],
   },
   {
     id: 3,
     title: "Testing bla bla",
-    description:
+    description: [
       "Labore mollit ut laboris laboris aliquip nostrud non ex velit minim do labore. Et adipisicing anim aliqua tempor fugiat. Sunt ullamco pariatur laboris id cupidatat veniam pariatur ut sint sint. Cillum sunt fugiat magna id consectetur sunt duis commodo sint laborum cillum culpa.",
+    ],
   },
   {
     id: 4,
     title: "Title",
-    description:
+    description: [
       "Ipsum commodo velit reprehenderit minim minim irure enim laboris tempor ex veniam fugiat pariatur elit.",
+    ],
   },
   {
     id: 5,
     title: "Testing bla bla",
-    description:
+    description: [
       "Labore mollit ut laboris laboris aliquip nostrud non ex velit minim do labore. Et adipisicing anim aliqua tempor fugiat. Sunt ullamco pariatur laboris id cupidatat veniam pariatur ut sint sint. Cillum sunt fugiat magna id consectetur sunt duis commodo sint laborum cillum culpa.",
+    ],
   },
   {
     id: 6,
     title: "Title",
-    description:
+    description: [
       "Ipsum commodo velit reprehenderit minim minim irure enim laboris tempor ex veniam fugiat pariatur elit.",
+    ],
   },
   {
     id: 7,
     title: "Testing bla bla",
-    description:
+    description: [
       "Labore mollit ut laboris laboris aliquip nostrud non ex velit minim do labore. Et adipisicing anim aliqua tempor fugiat. Sunt ullamco pariatur laboris id cupidatat veniam pariatur ut sint sint. Cillum sunt fugiat magna id consectetur sunt duis commodo sint laborum cillum culpa.",
+    ],
   },
   {
     id: 8,
     title: "Title",
-    description:
+    description: [
       "Ipsum commodo velit reprehenderit minim minim irure enim laboris tempor ex veniam fugiat pariatur elit.",
+    ],
   },
   {
     id: 9,
     title: "Testing bla bla",
-    description:
+    description: [
       "Labore mollit ut laboris laboris aliquip nostrud non ex velit minim do labore. Et adipisicing anim aliqua tempor fugiat. Sunt ullamco pariatur laboris id cupidatat veniam pariatur ut sint sint. Cillum sunt fugiat magna id consectetur sunt duis commodo sint laborum cillum culpa.",
+    ],
   },
   {
     id: 10,
     title: "Title",
-    description:
+    description: [
       "Ipsum commodo velit reprehenderit minim minim irure enim laboris tempor ex veniam fugiat pariatur elit.",
+    ],
   },
   {
     id: 11,
     title: "Testing bla bla",
-    description:
+    description: [
       "Labore mollit ut laboris laboris aliquip nostrud non ex velit minim do labore. Et adipisicing anim aliqua tempor fugiat. Sunt ullamco pariatur laboris id cupidatat veniam pariatur ut sint sint. Cillum sunt fugiat magna id consectetur sunt duis commodo sint laborum cillum culpa.",
+    ],
   },
   {
     id: 12,
     title: "Title",
-    description:
+    description: [
       "Ipsum commodo velit reprehenderit minim minim irure enim laboris tempor ex veniam fugiat pariatur elit.",
+    ],
   },
   {
     id: 13,
     title: "Testing bla bla",
-    description:
+    description: [
       "Labore mollit ut laboris laboris aliquip nostrud non ex velit minim do labore. Et adipisicing anim aliqua tempor fugiat. Sunt ullamco pariatur laboris id cupidatat veniam pariatur ut sint sint. Cillum sunt fugiat magna id consectetur sunt duis commodo sint laborum cillum culpa.",
+    ],
   },
 ];
 
 const notesReducer = (prevState, action) => {
-  switch (action.type) {
-    case "LOAD_NOTES_DATA":
-      let localStorageData = localStorage.getItem("NOTES_DATA");
-      let notes = localStorageData ? JSON.parse(localStorageData) : DUMMY_NOTES;
+  const actionType = action.type;
 
-      return {
-        ...prevState,
-        notes: notes,
-        loadingData: false,
-      };
-    case "SET_LOADING":
-      return {
-        ...prevState,
-        loadingData: action.payload,
-      };
-    default:
-      return {
-        prevState,
-      };
+  if (actionType === "LOAD_NOTES_DATA") {
+    const localStorageData = localStorage.getItem("NOTES_DATA");
+    const notes = localStorageData ? JSON.parse(localStorageData) : DUMMY_NOTES;
+
+    return {
+      ...prevState,
+      notes: notes,
+      loadingData: false,
+    };
   }
+  if (actionType === "SET_LOADING") {
+    return {
+      ...prevState,
+      loadingData: true,
+    };
+  }
+  if (actionType === "ADD_NOTE") {
+    const note = {
+      id: uuid(),
+      ...action.payload,
+    };
+
+    return {
+      ...prevState,
+      notes: [note, ...prevState.notes],
+    };
+  }
+  return prevState;
+
+  // switch (action.type) {
+  //   case "LOAD_NOTES_DATA":
+  //     let localStorageData = localStorage.getItem("NOTES_DATA");
+  //     let notes = localStorageData ? JSON.parse(localStorageData) : DUMMY_NOTES;
+
+  //     return {
+  //       ...prevState,
+  //       notes: notes,
+  //       loadingData: false,
+  //     };
+  //   case "SET_LOADING":
+  //     return {
+  //       ...prevState,
+  //       loadingData: true,
+  //     };
+  //   case "ADD_NOTE":
+  //     let localStorageData = localStorage.getItem("NOTES_DATA");
+  //     let notes = localStorageData ? JSON.parse(localStorageData) : DUMMY_NOTES;
+
+  //     return {
+  //       ...prevState,
+  //       loadingData: true,
+  //     };
+  //   default:
+  //     return;
+  //     prevState;
+  // }
 };
 
 export const NotesContext = React.createContext({
   notes: [],
   loadingData: true,
   loadNotesData: () => {},
+  addNote: () => {},
 });
 
 export const NotesContextProvider = ({ children }) => {
@@ -124,12 +177,16 @@ export const NotesContextProvider = ({ children }) => {
   });
 
   const loadNotesData = () => {
-    dispatchNotes({ type: "SET_LOADING", payload: true });
+    dispatchNotes({ type: "SET_LOADING" });
     dispatchNotes({ type: "LOAD_NOTES_DATA" });
   };
 
+  const addNote = (note) => {
+    dispatchNotes({ type: "ADD_NOTE", payload: note });
+  };
+
   return (
-    <NotesContext.Provider value={{ ...notesState, loadNotesData }}>
+    <NotesContext.Provider value={{ ...notesState, loadNotesData, addNote }}>
       {children}
     </NotesContext.Provider>
   );

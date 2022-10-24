@@ -6,6 +6,7 @@
   position: absolute;
   opacity: 0;
   transition: transform 0.2s, opacity 0.5s;
+  white-space: pre-wrap;
 }
 
 .title {

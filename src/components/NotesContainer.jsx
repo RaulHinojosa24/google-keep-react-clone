@@ -29,12 +29,13 @@ const NotesContainer = ({ container }) => {
 
   const { width: windowWidth } = useWindowSize();
 
+  const notesRefs = useRef([]);
+  const [refCounter, setRefCounter] = useState(0);
+
   const [notesJSX, setNotesJSX] = useState([]);
   const [containerHeight, setContainerHeight] = useState("");
-  const notesRefs = useRef([]);
 
   const [notesContainerData, setNotesContainerData] = useState({
-    allSet: false,
     width: null,
     columns: null,
   });
@@ -46,7 +47,11 @@ const NotesContainer = ({ container }) => {
           <Note
             {...note}
             key={note.id}
-            ref={(el) => (notesRefs.current[index] = el)}
+            // ref={(el) => (notesRefs.current[index] = el)}
+            ref={(el) => {
+              notesRefs.current[index] = el;
+              setRefCounter((prev) => prev + 1);
+            }}
           ></Note>
         );
       })
@@ -108,7 +113,6 @@ const NotesContainer = ({ container }) => {
         );
 
         setNotesContainerData({
-          allSet: true,
           width,
           columns,
         });
@@ -122,17 +126,20 @@ const NotesContainer = ({ container }) => {
   }, [windowWidth]);
 
   useEffect(() => {
-    if (notesContainerData.allSet) {
-      generateNotesPositions();
-      generateContainerHeight();
-    }
+    generateNotesPositions();
+    generateContainerHeight();
   }, [notesContainerData]);
 
   useEffect(() => {
+    notesRefs.current = notesRefs.current.slice(0, notesData.length);
+
     generateNotesJSX();
+  }, [notesData]);
+
+  useEffect(() => {
     generateNotesPositions();
     generateContainerHeight();
-  }, [notesData]);
+  }, [refCounter]);
 
   return (
     <div

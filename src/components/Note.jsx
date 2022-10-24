@@ -6,8 +6,12 @@ const Note = React.forwardRef((props, ref) => {
 
   return (
     <div className={classes.note} ref={ref} style={style}>
-      <p className={classes.title}>{title}</p>
-      <p className={classes.description}>{description}</p>
+      <div className={classes.title}>{title}</div>
+      <div className={classes.description}>
+        {description.map((line, index) => (
+          <p key={index}>{line}</p>
+        ))}
+      </div>
     </div>
   );
 });
