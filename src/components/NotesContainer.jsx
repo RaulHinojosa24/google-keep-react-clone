@@ -4,8 +4,10 @@ import { useWindowSize } from "../hooks/use-window-size";
 import Note from "./Note";
 import classes from "./NotesContainer.module.css";
 
-const NOTE_WIDTH = 240;
-const NOTE_MARGINS = 16;
+const MOBILE_NOTE_WIDTH = 200;
+const MOBILE_NOTE_MARGINS = 8;
+const DESKTOP_NOTE_WIDTH = 240;
+const DESKTOP_NOTE_MARGINS = 16;
 
 const CalculateContainerWidth = (columns, containerWidth) => {
   let width = "";
@@ -15,7 +17,8 @@ const CalculateContainerWidth = (columns, containerWidth) => {
     return { width, columns: 1 };
   }
 
-  let widthNeeded = columns * NOTE_WIDTH + (columns + 1) * NOTE_MARGINS;
+  let widthNeeded =
+    columns * DESKTOP_NOTE_WIDTH + (columns + 1) * DESKTOP_NOTE_MARGINS;
 
   if (widthNeeded <= containerWidth) {
     width = widthNeeded + "px";
@@ -66,33 +69,33 @@ const NotesContainer = ({ container }) => {
 
       if (index !== 0 && actualColumn === 0) currentRow++;
 
-      let x = (NOTE_WIDTH + NOTE_MARGINS) * actualColumn;
+      let x = (DESKTOP_NOTE_WIDTH + DESKTOP_NOTE_MARGINS) * actualColumn;
       let y = 0;
 
       for (let i = currentRow; i > 0; i--) {
         y +=
           notesRefs.current[index - notesContainerData.columns * i]
-            .offsetHeight + NOTE_MARGINS;
+            .offsetHeight + DESKTOP_NOTE_MARGINS;
       }
 
       note.style.transform = `translate(${x}px, ${y}px)`;
       note.style.width =
         notesContainerData.columns === 1
-          ? `calc(100% - ${NOTE_MARGINS * 2}px)`
-          : `${NOTE_WIDTH}px`;
-      note.style.margin = `${NOTE_MARGINS}px`;
+          ? `calc(100% - ${DESKTOP_NOTE_MARGINS * 2}px)`
+          : `${DESKTOP_NOTE_WIDTH}px`;
+      note.style.margin = `${DESKTOP_NOTE_MARGINS}px`;
       note.style.opacity = `1`;
     });
   };
 
   const generateContainerHeight = () => {
     const columnHeights = new Array(notesContainerData.columns).fill(
-      NOTE_MARGINS
+      DESKTOP_NOTE_MARGINS
     );
 
     notesRefs.current.map((note, index) => {
       const actualColumn = index % notesContainerData.columns;
-      columnHeights[actualColumn] += note.offsetHeight + NOTE_MARGINS;
+      columnHeights[actualColumn] += note.offsetHeight + DESKTOP_NOTE_MARGINS;
     });
 
     setContainerHeight(Math.max(...columnHeights) + "px");
@@ -103,7 +106,7 @@ const NotesContainer = ({ container }) => {
       const CONTAINER_WIDTH = container.clientWidth;
 
       const newColumns = Math.floor(
-        CONTAINER_WIDTH / (NOTE_WIDTH + NOTE_MARGINS * 2)
+        CONTAINER_WIDTH / (DESKTOP_NOTE_WIDTH + DESKTOP_NOTE_MARGINS * 2)
       );
 
       if (newColumns !== notesContainerData.columns) {
@@ -146,7 +149,8 @@ const NotesContainer = ({ container }) => {
       className={classes["notes-container"]}
       style={{ width: notesContainerData.width, height: containerHeight }}
     >
-      {notesJSX}
+      {notesData !== 0 && notesJSX}
+      {}
     </div>
   );
 };

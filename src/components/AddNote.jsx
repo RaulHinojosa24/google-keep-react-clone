@@ -9,6 +9,7 @@ const AddNote = () => {
   const [description, setDescription] = useState("");
   const titleRef = useRef();
   const descriptionRef = useRef();
+
   useResizableTextarea(descriptionRef.current, description);
 
   const notesCtx = useContext(NotesContext);
@@ -16,13 +17,11 @@ const AddNote = () => {
   const submitHandler = (event) => {
     const title = titleRef.current.value;
     const description = descriptionRef.current.value.split("\n");
-    console.log(description);
 
     const anyContent = [title, ...description].some(
       (text) => text.trim() !== ""
     );
 
-    console.log(description);
     if (anyContent) {
       notesCtx.addNote({
         title,

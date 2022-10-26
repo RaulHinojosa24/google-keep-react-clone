@@ -1,7 +1,8 @@
 .note {
   padding: 1rem;
+  padding-bottom: 3rem;
   border-radius: 0.5rem;
-  border: 1px solid rgba(128, 128, 128, 0.5);
+  border: 1px solid rgba(200, 200, 200, 0.5);
   background-color: white;
   position: absolute;
   opacity: 0;
@@ -12,6 +13,7 @@
 .title {
   margin-bottom: 1rem;
   font-weight: 500;
+  margin: 0;
 }
 
 .description {
@@ -20,4 +22,8 @@
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 8;
   overflow: hidden;
+}
+
+.description > p {
+  min-height: 1.3em;
 }

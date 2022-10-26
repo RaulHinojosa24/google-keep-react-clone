@@ -3,6 +3,7 @@ import "./App.css";
 import AddNote from "./components/AddNote";
 import NotesContainer from "./components/NotesContainer";
 import { NotesContext } from "./context/notes-context";
+import Navbar from "./UI/Navbar";
 
 function App() {
   const notesCtx = useContext(NotesContext);
@@ -14,7 +15,9 @@ function App() {
 
   return (
     <>
-      <header></header>
+      <header>
+        <Navbar />
+      </header>
       <main>
         <div ref={notesDisplay} style={{ minWidth: "344px" }}>
           <AddNote />

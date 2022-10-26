@@ -1,0 +1,46 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 4rem;
+  width: 100%;
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(200, 200, 200, 0.5);
+  background-color: white;
+  z-index: 100;
+}
+
+.navbar.shadow {
+  border: none;
+  box-shadow: 0 0 8px rgb(100, 100, 100);
+}
+
+.section {
+  height: 100%;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 100%;
+  padding: 0.3rem;
+}
+
+.icon {
+  height: 100%;
+}
+
+.project-name {
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: rgb(100, 100, 100);
+}

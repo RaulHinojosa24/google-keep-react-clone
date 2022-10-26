@@ -107,7 +107,7 @@ const notesReducer = (prevState, action) => {
 
   if (actionType === "LOAD_NOTES_DATA") {
     const localStorageData = localStorage.getItem("NOTES_DATA");
-    const notes = localStorageData ? JSON.parse(localStorageData) : DUMMY_NOTES;
+    const notes = localStorageData ? JSON.parse(localStorageData) : [];
 
     return {
       ...prevState,
@@ -127,40 +127,17 @@ const notesReducer = (prevState, action) => {
       ...action.payload,
     };
 
+    const localStorageData = localStorage.getItem("NOTES_DATA");
+    const notes = localStorageData ? JSON.parse(localStorageData) : [];
+    const newNotes = [note, ...notes];
+    localStorage.setItem("NOTES_DATA", JSON.stringify(newNotes));
+
     return {
       ...prevState,
-      notes: [note, ...prevState.notes],
+      notes: newNotes,
     };
   }
   return prevState;
-
-  // switch (action.type) {
-  //   case "LOAD_NOTES_DATA":
-  //     let localStorageData = localStorage.getItem("NOTES_DATA");
-  //     let notes = localStorageData ? JSON.parse(localStorageData) : DUMMY_NOTES;
-
-  //     return {
-  //       ...prevState,
-  //       notes: notes,
-  //       loadingData: false,
-  //     };
-  //   case "SET_LOADING":
-  //     return {
-  //       ...prevState,
-  //       loadingData: true,
-  //     };
-  //   case "ADD_NOTE":
-  //     let localStorageData = localStorage.getItem("NOTES_DATA");
-  //     let notes = localStorageData ? JSON.parse(localStorageData) : DUMMY_NOTES;
-
-  //     return {
-  //       ...prevState,
-  //       loadingData: true,
-  //     };
-  //   default:
-  //     return;
-  //     prevState;
-  // }
 };
 
 export const NotesContext = React.createContext({
