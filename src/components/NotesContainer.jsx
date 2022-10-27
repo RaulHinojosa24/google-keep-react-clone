@@ -3,6 +3,7 @@ import { NotesContext } from "../context/notes-context";
 import { useWindowSize } from "../hooks/use-window-size";
 import Note from "./Note";
 import classes from "./NotesContainer.module.css";
+import Lightbulb from "../assets/svg/Lightbulb.svg";
 
 const MOBILE_NOTE_WIDTH = 200;
 const MOBILE_NOTE_MARGINS = 8;
@@ -29,6 +30,7 @@ const CalculateContainerWidth = (columns, containerWidth) => {
 const NotesContainer = ({ container }) => {
   const notesCtx = useContext(NotesContext);
   const { notes: notesData, loadingData } = notesCtx;
+  const anyNotesData = notesData.length !== 0;
 
   const { width: windowWidth } = useWindowSize();
 
@@ -89,6 +91,10 @@ const NotesContainer = ({ container }) => {
   };
 
   const generateContainerHeight = () => {
+    if (!anyNotesData) {
+      setContainerHeight("");
+      return;
+    }
     const columnHeights = new Array(notesContainerData.columns).fill(
       DESKTOP_NOTE_MARGINS
     );
@@ -149,8 +155,13 @@ const NotesContainer = ({ container }) => {
       className={classes["notes-container"]}
       style={{ width: notesContainerData.width, height: containerHeight }}
     >
-      {notesData !== 0 && notesJSX}
-      {}
+      {anyNotesData && notesJSX}
+      {!anyNotesData && (
+        <div className={classes["missing-notes"]}>
+          <img className={classes.icon} src={Lightbulb} alt="" srcset="" />
+          <div className={classes.message}>Notes you add appear here</div>
+        </div>
+      )}
     </div>
   );
 };

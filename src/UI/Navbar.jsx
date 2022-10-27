@@ -1,5 +1,5 @@
 import classes from "./Navbar.module.css";
-import Keep from "../assets/svg/Keep.svg";
+import Keep from "/Keep.svg";
 import { useScrollbarPosition } from "../hooks/use-scrollbar-position";
 
 const Navbar = () => {

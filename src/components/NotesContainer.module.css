@@ -1,6 +1,21 @@
 .notes-container {
   margin: 0 auto;
   position: relative;
-  height: 300vh;
   box-shadow: 0 0 0 1px black;
+}
+
+.missing-notes {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.missing-notes > .icon {
+  width: 9rem;
+  opacity: 0.1;
+}
+.missing-notes > .message {
+  font-size: 1.8rem;
+  color: rgb(125, 125, 125);
 }
